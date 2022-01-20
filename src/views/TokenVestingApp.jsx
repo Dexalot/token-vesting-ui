@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Grid, Row, Col } from 'react-bootstrap'
+import { Container, Row, Col } from 'react-bootstrap'
 
-import { getTokenVesting, getSimpleToken } from '../contracts'
+import { getTokenVesting, getDexalotToken } from '../contracts'
 
 import Header from './Header'
 import VestingDetails from './VestingDetails'
@@ -30,7 +30,7 @@ class TokenVestingApp extends Component {
 
         <Header address={ address } token={ token } tokenName={ this.state.name } />
 
-        <Grid>
+        <Container>
           <Row>
             <Col xs={12} md={6}>
               <VestingDetails
@@ -46,7 +46,7 @@ class TokenVestingApp extends Component {
               <VestingSchedule details={ this.state } />
             </Col>
           </Row>
-        </Grid>
+        </Container>
       </div>
     )
   }
@@ -59,15 +59,15 @@ class TokenVestingApp extends Component {
     const { address, token } = this.props
 
     const tokenVesting = await getTokenVesting(address)
-    const tokenContract = await getSimpleToken(token)
+    const tokenContract = await getDexalotToken(token)
 
     const start = await tokenVesting.start()
     const duration = await tokenVesting.duration()
-    const end = start.plus(duration)
+    const end = start + duration
 
     const balance  = await tokenContract.balanceOf(address)
     const released = await tokenVesting.released(token)
-    const total = balance.plus(released)
+    const total = balance + released
 
     this.setState({
       start,
