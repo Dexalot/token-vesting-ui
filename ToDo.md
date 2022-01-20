@@ -2,6 +2,8 @@
 
 ## Running
 
+> git checkout feature/vesting
+
 > npx hardhat node
 
 > npx hardhat console --network localhost
