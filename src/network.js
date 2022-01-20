@@ -1,10 +1,10 @@
-import Web3 from 'web3'
+import { ethers } from 'ethers'
 import { sleep } from './utils'
 
 const Network = {
   async web3() {
-    const provider = await Network.provider()
-    return new Web3(provider)
+    const provider = await Network.provider();
+    return provider;
   },
 
   async eth() {
@@ -13,21 +13,29 @@ const Network = {
   },
 
   async provider() {
-    let { web3 } = window
+    let { ethereum } = window
 
-    while (web3 === undefined) {
+    while (ethereum === undefined) {
       Network.log("Waiting for web3")
       await sleep(500)
-      web3 = window.web3
+      ethereum = window.ethereum
     }
-
-    return web3.currentProvider
+  
+    return new ethers.providers.Web3Provider(ethereum)
   },
 
   getAccounts() {
-    return new Promise((resolve, reject) => {
-      Network.eth().then(eth => eth.getAccounts(Network._web3Callback(resolve, reject)))
-    })
+    
+    return Network.web3().then(web3 => web3.listAccounts())
+    // return new Promise((resolve, reject) => {
+      
+      // Network.eth().then(eth => eth.getAccounts(Network._web3Callback(resolve, reject)))
+    // })
+  },
+
+  async getSigner() {
+    
+    return (await Network.provider()).getSigner()
   },
 
   _web3Callback(resolve, reject) {

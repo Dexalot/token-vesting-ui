@@ -6,13 +6,13 @@ import Emoji from './Emoji'
 function VestingSchedule({ details }) {
   return  (
     <div>
-      <h4>Vesting schedule</h4>
-      { ! details.revoked
-          ? details.total > 0
-            ? <VestingChart details={ details } />
-            : <Empty />
-          : <Revoked />
-      }
+       <h4>Vesting schedule</h4>
+       { ! details.revoked
+           ? details.total > 0
+             ? <VestingChart details={ details } />
+             : <Empty />
+           : <Revoked />
+       }
     </div>
   )
 }

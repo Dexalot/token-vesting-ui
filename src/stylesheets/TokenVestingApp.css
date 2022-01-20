@@ -60,8 +60,8 @@
 }
 
 .action {
-  position: absolute;
-  right: 30px;
+  /* position: absolute; */
+  margin-right: 10px;
 }
 
 .spinner {
